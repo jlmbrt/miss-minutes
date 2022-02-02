@@ -7,6 +7,7 @@ export class Chrono {
     private _end?: bigint;
 
     private static NUM_INSTANCE: number = 0;
+    static readonly DEFAULT_VALUE = 0;
 
     static create(id?: string): Chrono {
         return new Chrono(id);
@@ -33,11 +34,11 @@ export class Chrono {
         this._start = process.hrtime.bigint();
     }
 
-    stop(): bigint {
+    stop(): number {
         const t = process.hrtime.bigint();
 
         if (this.isRunning) {
-            this._end = this._end || t;
+            this._end = t;
         }
 
         return this.value;
@@ -66,22 +67,28 @@ export class Chrono {
         }
     }
 
-    get value(): bigint {
+    get value(): number {
+        let val;
         switch (this.state) {
             case "running":
-                return process.hrtime.bigint() - this._start!;
+                val = process.hrtime.bigint() - this._start!;
+                break;
             case "stopped":
-                return this._end! - this._start!;
+                val = this._end! - this._start!;
+                break;
             default:
-                return BigInt(0);
+                val = Chrono.DEFAULT_VALUE;
+                break;
         }
+
+        return Math.round(Number(val) * 1e-6);
     }
 
     toString(): string {
-        return `${Chrono.name} ${this.id} - ${this.state}: ${this.value} ns`;
+        return `${Chrono.name} ${this.id} - ${this.state}: ${this.value} ms`;
     }
 
-    valueOf(): bigint {
+    valueOf(): number {
         return this.value;
     }
 
