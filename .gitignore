@@ -1,0 +1,8 @@
+# dependencies
+node_modules
+
+# transpiled code
+dist
+
+# tests reports (coverage,result, ...)
+test-reports
