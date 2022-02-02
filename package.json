@@ -1,8 +1,12 @@
 {
     "name": "miss-minutes",
-    "version": "1.0.0",
+    "version": "0.0.1",
     "description": "How long does my code take?",
-    "main": "index.js",
+    "main": "dist/index.js",
+    "types": "dist/types/index.d.ts",
+    "files": [
+        "dist/"
+    ],
     "scripts": {
         "types:check": "tsc --noEmit",
         "types:watch": "npm run types:check -- --watch",
@@ -12,7 +16,8 @@
         "format:fix": "prettier --write ./src",
         "lint": "eslint ./src",
         "test": "jest .",
-        "test:watch": "npm run test -- --watch"
+        "test:watch": "npm run test -- --watch",
+        "prepublishOnly": "npm run build:full"
     },
     "repository": {
         "type": "git",
