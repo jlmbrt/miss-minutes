@@ -3,6 +3,10 @@ node_modules
 
 # transpiled code
 dist
+*.tsbuildinfo
 
 # tests reports (coverage,result, ...)
 test-reports
+
+# just a non-versionned place
+ignoring
