@@ -3,10 +3,10 @@ type ChronoState = "running" | "stopped" | "not started";
 export class Chrono {
     readonly id: string;
 
-    private _start?: bigint;
-    private _end?: bigint;
+    private _start = BigInt(0);
+    private _end = BigInt(0);
 
-    private static NUM_INSTANCE: number = 0;
+    private static NUM_INSTANCE = 0;
     static readonly DEFAULT_VALUE = 0;
 
     static create(id?: string): Chrono {
@@ -30,7 +30,7 @@ export class Chrono {
     }
 
     start(): void {
-        this._end = undefined;
+        this._end = BigInt(0);
         this._start = process.hrtime.bigint();
     }
 
@@ -45,15 +45,15 @@ export class Chrono {
     }
 
     get isStarted(): boolean {
-        return this._start !== undefined;
+        return this._start !== BigInt(0);
     }
 
     get isRunning(): boolean {
-        return this.isStarted && this._end === undefined;
+        return this.isStarted && this._end === BigInt(0);
     }
 
     get isStopped(): boolean {
-        return this._start !== undefined && this._end !== undefined;
+        return this._start !== BigInt(0) && this._end !== BigInt(0);
     }
 
     get state(): ChronoState {
@@ -71,10 +71,10 @@ export class Chrono {
         let val;
         switch (this.state) {
             case "running":
-                val = process.hrtime.bigint() - this._start!;
+                val = process.hrtime.bigint() - this._start;
                 break;
             case "stopped":
-                val = this._end! - this._start!;
+                val = this._end - this._start;
                 break;
             default:
                 val = Chrono.DEFAULT_VALUE;
