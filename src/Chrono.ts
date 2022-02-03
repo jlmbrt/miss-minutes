@@ -29,6 +29,10 @@ export class Chrono {
         this.id = id;
     }
 
+    private elapsedTime(value: bigint, start: bigint = this._start): number {
+        return Math.round(Number(value - start) * 1e-6);
+    }
+
     start(): void {
         this._end = BigInt(0);
         this._start = process.hrtime.bigint();
@@ -68,20 +72,14 @@ export class Chrono {
     }
 
     get value(): number {
-        let val;
         switch (this.state) {
             case "running":
-                val = process.hrtime.bigint() - this._start;
-                break;
+                return this.elapsedTime(process.hrtime.bigint());
             case "stopped":
-                val = this._end - this._start;
-                break;
+                return this.elapsedTime(this._end);
             default:
-                val = Chrono.DEFAULT_VALUE;
-                break;
+                return Chrono.DEFAULT_VALUE;
         }
-
-        return Math.round(Number(val) * 1e-6);
     }
 
     toString(): string {
@@ -96,7 +94,7 @@ export class Chrono {
         return {
             id: this.id,
             state: this.state,
-            value: this.value.toString(),
+            value: this.value,
         };
     }
 }
