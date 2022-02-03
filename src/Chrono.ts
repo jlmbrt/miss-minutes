@@ -5,6 +5,7 @@ export class Chrono {
 
     private _start = BigInt(0);
     private _end = BigInt(0);
+    private _laps: bigint[] = [];
 
     private static NUM_INSTANCE = 0;
     static readonly DEFAULT_VALUE = 0;
@@ -48,6 +49,15 @@ export class Chrono {
         return this.value;
     }
 
+    lap(): [number, number] {
+        const lap = process.hrtime.bigint();
+        const last = this._laps[this._laps.length] || this._start;
+
+        this._laps.push(lap);
+
+        return [this.elapsedTime(lap, last), this.elapsedTime(lap)];
+    }
+
     get isStarted(): boolean {
         return this._start !== BigInt(0);
     }
@@ -80,6 +90,14 @@ export class Chrono {
             default:
                 return Chrono.DEFAULT_VALUE;
         }
+    }
+
+    get laps(): number[][] {
+        return this._laps.map((lap, i, laps) => {
+            const last = i == 0 ? this._start : laps[i - 1];
+
+            return [this.elapsedTime(lap, last), this.elapsedTime(lap)];
+        });
     }
 
     toString(): string {
