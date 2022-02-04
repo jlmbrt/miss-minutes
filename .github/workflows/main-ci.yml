@@ -1,8 +1,12 @@
 name: Global checking
 on:
-    - push
-    - pull_request
-    - workflow_dispatch
+    push:
+        branches:
+            - "master"
+    pull_request:
+        branches:
+            - "master"
+    workflow_dispatch:
 
 jobs:
     Types-Check:
