@@ -9,14 +9,15 @@
 
         "declaration": true,
         "declarationDir": "dist/types",
-        "inlineSourceMap": true,
+        "sourceMap": false,
 
         "strict": true,
 
         "esModuleInterop": true,
 
         "skipLibCheck": true,
-        "forceConsistentCasingInFileNames": true
+        "forceConsistentCasingInFileNames": true,
+        "removeComments": false
     },
     "include": ["src/**/*"],
     "exclude": [""]
