@@ -1,0 +1,51 @@
+name: Global checking
+on: [push]
+
+jobs:
+  Types Check:
+    runs-on: ubuntu-lastest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+    - name: Install dependecies
+      run: npm ci
+    - name: Check types
+      run: npm run types:check
+
+  Format Check:
+    runs-on: ubuntu-lastest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+    - name: Install dependecies
+      run: npm ci
+    - name: Check code format
+      run: npm run format:check
+
+  Lint Check:
+    runs-on: ubuntu-lastest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+    - name: Install dependecies
+      run: npm ci
+    - name: Lint code
+      run: npm run lint
+
+  Units Tests:
+    runs-on: ubuntu-lastest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+    - name: Install dependecies
+      run: npm ci
+    - name: Execute units tests
+      run: npm run test
