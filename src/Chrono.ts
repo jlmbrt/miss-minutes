@@ -127,6 +127,14 @@ export class Chrono {
         return this.value;
     }
 
+    /**
+     *
+     * Create a new lap, the current `hrtime` is stored,
+     * return the elapsed time since last lap (relative) and the elapsed time since start (absolute)
+     *
+     * => [number,number] == [relative, absolute]
+     *
+     */
     lap(): [number, number] {
         const lap = process.hrtime.bigint();
         const last = this._laps[this._laps.length] || this._start;
@@ -187,6 +195,11 @@ export class Chrono {
         }
     }
 
+    /**
+     * Elapsed time since start if `running`or Elapsed time between start and stop if `stopped` (return 0 if `not started`)
+     *
+     * _value in millisecond_
+     */
     get value(): number {
         switch (this.state) {
             case "running":
@@ -198,6 +211,11 @@ export class Chrono {
         }
     }
 
+    /**
+     * Return all laps stored
+     *
+     * Each row is a lap [relative,absolute] (see `lap()` method )
+     */
     get laps(): number[][] {
         return this._laps.map((lap, i, laps) => {
             const last = i == 0 ? this._start : laps[i - 1];
