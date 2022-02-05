@@ -24,8 +24,8 @@
         "url": "git+https://github.com/jlmbrt/miss-minutes.git"
     },
     "keywords": [],
-    "author": "",
-    "license": "ISC",
+    "author": "Julien Lambert",
+    "license": "MIT",
     "bugs": {
         "url": "https://github.com/jlmbrt/miss-minutes/issues"
     },
