@@ -1,6 +1,6 @@
 {
     "name": "miss-minutes",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "How long does my code take?",
     "main": "dist/index.js",
     "types": "dist/types/index.d.ts",
