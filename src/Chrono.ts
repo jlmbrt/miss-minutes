@@ -1,3 +1,5 @@
+import TimeValue from "./TimeValue";
+
 type ChronoState = "running" | "stopped" | "not started";
 
 /**
@@ -201,11 +203,26 @@ export class Chrono {
     }
 
     /**
+     * @deprecated
+     * **Use `rawValue` propertie instead**
+     *
+     *
      * Elapsed time since start if `running`or Elapsed time between start and stop if `stopped` (return 0 if `not started`)
      *
      * _value in millisecond_
      */
     get value(): number {
+        return this.rawValue;
+    }
+
+    /**
+     * **Replace `value` propertie in a future release**
+     *
+     * Elapsed time since start if `running`or Elapsed time between start and stop if `stopped` (return 0 if `not started`)
+     *
+     * _value in millisecond_
+     */
+    get rawValue(): number {
         switch (this.state) {
             case "running":
                 return this.elapsedTime(process.hrtime.bigint());
@@ -214,6 +231,16 @@ export class Chrono {
             default:
                 return Chrono.DEFAULT_VALUE;
         }
+    }
+
+    /**
+     *
+     * @type {TimeValue}
+     *
+     * Build a `TimeValue` object from the current `rawValue`
+     */
+    get timeValue(): TimeValue {
+        return TimeValue.from(this.rawValue);
     }
 
     /**
@@ -230,18 +257,18 @@ export class Chrono {
     }
 
     toString(): string {
-        return `${Chrono.name} ${this.id} - ${this.state}: ${this.value} ms`;
+        return `${Chrono.name} ${this.id} - ${this.state}: ${this.rawValue} ms`;
     }
 
     valueOf(): number {
-        return this.value;
+        return this.rawValue;
     }
 
     toJSON() {
         return {
             id: this.id,
             state: this.state,
-            value: this.value,
+            value: this.rawValue,
         };
     }
 }
