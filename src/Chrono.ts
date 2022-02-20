@@ -105,6 +105,7 @@ export class Chrono {
      * Chrono `state` become `running`
      */
     start(): void {
+        this._laps = [];
         this._end = BigInt(0);
         this._start = process.hrtime.bigint();
     }
@@ -136,8 +137,12 @@ export class Chrono {
      *
      */
     lap(): [number, number] {
+        if (!this.isRunning) {
+            return [0, 0];
+        }
+
         const lap = process.hrtime.bigint();
-        const last = this._laps[this._laps.length] || this._start;
+        const last = this._laps.length > 0 ? this._laps[this._laps.length - 1] : this._start;
 
         this._laps.push(lap);
 
