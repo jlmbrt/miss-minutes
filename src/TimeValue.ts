@@ -60,6 +60,8 @@ export class TimeValue {
 
             this._rawValue += val * infos[key].ms_rapport;
         });
+
+        this._rawValue = Math.round(this._rawValue);
     }
 
     /**
@@ -213,7 +215,7 @@ type UnitInfos = Record<
     }
 >;
 
-type TimeValueConstructor = Partial<Record<TimeUnits, number>>;
+export type TimeValueConstructor = Partial<Record<TimeUnits, number>>;
 interface ValueOpt {
     unit?: TimeUnits;
     bounded?: boolean;
