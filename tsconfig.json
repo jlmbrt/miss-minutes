@@ -2,22 +2,18 @@
     "compilerOptions": {
         "target": "ES2016",
         "module": "commonjs",
-        "incremental": true,
+        "incremental": false,
         "allowJs": true,
         "outDir": "./dist",
         "rootDir": "./src",
 
-        "declaration": true,
-        "declarationDir": "dist/types",
         "sourceMap": false,
-
         "strict": true,
 
         "esModuleInterop": true,
 
         "skipLibCheck": true,
-        "forceConsistentCasingInFileNames": true,
-        "removeComments": false
+        "forceConsistentCasingInFileNames": true
     },
     "include": ["src/**/*"],
     "exclude": [""]

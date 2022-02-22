@@ -10,14 +10,16 @@
     "scripts": {
         "types:check": "tsc --noEmit",
         "types:watch": "npm run types:check -- --watch",
-        "build": "tsc ",
-        "build:full": "rimraf dist/* && npm run build -- --incremental false",
+        "build:js": "tsc -p tsconfig-js.json",
+        "build:types": "tsc -p tsconfig-types.json",
+        "build:raz": "rimraf dist/*",
+        "build": "npm run build:raz && npm run build:js && npm run build:types",
         "format:check": "prettier --check ./src",
         "format:fix": "prettier --write ./src",
         "lint": "eslint ./src",
         "test": "jest .",
         "test:watch": "npm run test -- --watch",
-        "prepublishOnly": "npm run check-all && npm run build:full",
+        "prepublishOnly": "npm run check-all && npm run build",
         "check-all": "npm run lint && npm run format:check && npm run types:check && npm run test"
     },
     "repository": {
