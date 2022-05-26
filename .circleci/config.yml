@@ -11,13 +11,31 @@ commands:
     steps:
       - run: 
           name: "Install Node Deps"
-          command: npm ci
+          command: npm ci --cache .npm --prefer-offline --no-audit --silent
+  restore-deps-cache:
+    description: "Cache restoration of node dependencies"
+    steps:
+      - restore_cache:
+          keys: 
+            - deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
+  
+
 
 jobs:
+  deps-install:
+    executor: node
+    steps:
+      - checkout
+      - install-node-deps
+      - save_cache:
+          key: deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
+          paths:
+            - .npm
   types-check:
     executor: node
     steps:
       - checkout
+      - restore-deps-cache
       - install-node-deps
       - run:
           name: "Types Checking"
@@ -27,6 +45,7 @@ jobs:
     executor: node
     steps:
       - checkout
+      - restore-deps-cache
       - install-node-deps
       - run:
           name: "Format Checking"
@@ -36,6 +55,7 @@ jobs:
     executor: node
     steps:
       - checkout
+      - restore-deps-cache
       - install-node-deps
       - run:
           name: "Lint Checking"
@@ -45,6 +65,7 @@ jobs:
     executor: node
     steps:
       - checkout
+      - restore-deps-cache
       - install-node-deps
       - run:
           name: "Execute units tests"
@@ -55,6 +76,7 @@ jobs:
       - image: node:alpine
     steps:
         - checkout
+        - restore-deps-cache
         - install-node-deps
         - run:
             name: "Build package"
@@ -64,10 +86,19 @@ jobs:
 workflows:
   Global-checking:
     jobs:
-      - types-check
-      - format-check
-      - lint-check
-      - unit-tests
+      - deps-install
+      - types-check:
+          requires:
+            - deps-install
+      - format-check:
+          requires:
+            - deps-install
+      - lint-check:
+          requires:
+            - deps-install
+      - unit-tests:
+          requires:
+            - deps-install
       - build:
           requires:
             - types-check
